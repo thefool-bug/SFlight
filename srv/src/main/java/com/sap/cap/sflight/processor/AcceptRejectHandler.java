@@ -15,6 +15,7 @@ import com.sap.cds.services.persistence.PersistenceService;
 
 import cds.gen.travelservice.TravelAcceptTravelContext;
 import cds.gen.travelservice.TravelRejectTravelContext;
+import cds.gen.travelservice.TravelPendTravelContext;
 import cds.gen.travelservice.Travel;
 import cds.gen.travelservice.TravelService_;
 import cds.gen.travelservice.Travel_;
@@ -26,6 +27,7 @@ public class AcceptRejectHandler implements EventHandler {
 	private static final String TRAVEL_STATUS_OPEN = "O";
 	private static final String TRAVEL_STATUS_ACCEPTED = "A";
 	private static final String TRAVEL_STATUS_CANCELLED = "X";
+	private static final String TRAVEL_STATUS_PENDING = "P";
 
 	private final PersistenceService persistenceService;
 	private final DraftService draftService;
@@ -60,6 +62,20 @@ public class AcceptRejectHandler implements EventHandler {
 		Travel travel = draftService.run(context.cqn()).single(Travel.class);
 		context.getCdsRuntime().requestContext().privilegedUser().run(ctx -> {
 			updateStatusForTravelId(travel.travelUUID(), TRAVEL_STATUS_ACCEPTED, travel.isActiveEntity());
+		});
+		context.setCompleted();
+	}
+
+	@Before(entity = Travel_.CDS_NAME)
+	public void beforeRejectTravel(final TravelPendTravelContext context) {
+		draftService.run(context.cqn()).first(Travel.class).ifPresent(this::checkIfTravelHasExceptedStatus);
+	}
+	
+	@On(entity = Travel_.CDS_NAME)
+	public void onRejectTravel(final TravelPendTravelContext context) {
+		Travel travel = draftService.run(context.cqn()).single(Travel.class);
+		context.getCdsRuntime().requestContext().privilegedUser().run(ctx -> {
+			updateStatusForTravelId(travel.travelUUID(), TRAVEL_STATUS_PENDING, travel.isActiveEntity());
 		});
 		context.setCompleted();
 	}

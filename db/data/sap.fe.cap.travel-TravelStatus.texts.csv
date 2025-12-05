@@ -2,12 +2,16 @@ code;locale;name
 O;en;Open
 A;en;Accepted
 X;en;Canceled
+P;en;Pending
 O;de;Offen
 A;de;Genehmigt
 X;de;Abgelehnt
+P;de;Ausstehend
 O;fr;Ouverte
 A;fr;Acceptée
 X;fr;Rejetée
+P;fr;En attente
 O;it;Apri
 A;it;Accettata
 X;it;Rifiutata
+P;it;In sospeso

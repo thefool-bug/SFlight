@@ -156,10 +156,11 @@ init() {
   //
   // Action Implementations...
   //
-  const { acceptTravel, rejectTravel, deductDiscount } = Travel.actions
+  const { acceptTravel, rejectTravel, pendTravel, deductDiscount } = Travel.actions
 
   this.on(acceptTravel, req => UPDATE(req.subject).with({ TravelStatus_code: TravelStatusCode.Accepted }))
   this.on(rejectTravel, req => UPDATE(req.subject).with({ TravelStatus_code: TravelStatusCode.Canceled }))
+  this.on(pendTravel, req => UPDATE(req.subject).with({ TravelStatus_code: TravelStatusCode.Pending }))
   this.on(deductDiscount, async req => {
     let discount = req.data.percent / 100
     let succeeded = await UPDATE(req.subject)

@@ -24,6 +24,10 @@ entity Travel : managed {
   to_Booking     : Composition of many Booking on to_Booking.to_Travel = $self;
 };
 
+extend Travel with {
+  ReasonText : String(1024);
+};
+
 annotate Travel with @Capabilities.FilterRestrictions.FilterExpressionRestrictions: [
   { Property: 'BeginDate', AllowedExpressions : 'SingleRange' },
   { Property: 'EndDate', AllowedExpressions : 'SingleRange' }
@@ -77,6 +81,7 @@ type TravelStatusCode : String(1) enum {
   Open     = 'O';
   Accepted = 'A';
   Canceled = 'X';
+  Pending = 'P';
 };
 
 entity TravelStatus : CodeList {

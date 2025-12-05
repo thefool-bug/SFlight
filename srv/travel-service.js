@@ -64,6 +64,7 @@ class TravelService extends cds.ApplicationService { init() {
 
   this.on ('acceptTravel', req => UPDATE (req.subject) .with ({ TravelStatus_code: 'A' }))
   this.on ('rejectTravel', req => UPDATE (req.subject) .with ({ TravelStatus_code: 'X' }))
+  this.on ('pendTravel', req => UPDATE (req.subject) .with ({ TravelStatus_code: 'P' }))
   this.on ('deductDiscount', async req => {
     let discount = req.data.percent / 100
     let succeeded = await UPDATE (req.subject) .where `TravelStatus.code != 'A'` .and `BookingFee != null` .with (`

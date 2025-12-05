@@ -4,7 +4,7 @@ service TravelService @(path:'/processor') {
 
   @(restrict: [
     { grant: 'READ', to: 'authenticated-user'},
-    { grant: ['rejectTravel','acceptTravel','deductDiscount'], to: 'reviewer'},
+    { grant: ['rejectTravel','acceptTravel','pendTravel','deductDiscount'], to: 'reviewer'},
     { grant: ['*'], to: 'processor'},
     { grant: ['*'], to: 'admin'}
   ])
@@ -12,6 +12,7 @@ service TravelService @(path:'/processor') {
     action createTravelByTemplate() returns Travel;
     action rejectTravel();
     action acceptTravel();
+    action pendTravel();
     action deductDiscount( percent: Percentage not null ) returns Travel;
   };
 

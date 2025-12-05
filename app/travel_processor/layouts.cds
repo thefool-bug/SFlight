@@ -109,6 +109,10 @@ annotate TravelService.Travel with @UI : {
       Criticality : { $edmJson: { $If: [{$Eq: [{ $Path: 'TravelStatus_code'}, 'O']}, 2,
                                 { $If: [{$Eq: [{ $Path: 'TravelStatus_code'}, 'A']}, 3, 0] }] } },
       Label : '{i18n>Status}' // label only necessary if differs from title of element
+    },
+    {
+      Value : ReasonText,
+      Label : '{i18n>ReasonText}'
     }
   ]},
   FieldGroup #DateData : {Data : [

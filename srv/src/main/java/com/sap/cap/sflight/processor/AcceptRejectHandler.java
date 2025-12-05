@@ -67,12 +67,12 @@ public class AcceptRejectHandler implements EventHandler {
 	}
 
 	@Before(entity = Travel_.CDS_NAME)
-	public void beforeRejectTravel(final TravelPendTravelContext context) {
+	public void beforePendTravel(final TravelPendTravelContext context) {
 		draftService.run(context.cqn()).first(Travel.class).ifPresent(this::checkIfTravelHasExceptedStatus);
 	}
 	
 	@On(entity = Travel_.CDS_NAME)
-	public void onRejectTravel(final TravelPendTravelContext context) {
+	public void onPendTravel(final TravelPendTravelContext context) {
 		Travel travel = draftService.run(context.cqn()).single(Travel.class);
 		context.getCdsRuntime().requestContext().privilegedUser().run(ctx -> {
 			updateStatusForTravelId(travel.travelUUID(), TRAVEL_STATUS_PENDING, travel.isActiveEntity());

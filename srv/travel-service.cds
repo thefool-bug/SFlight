@@ -12,7 +12,7 @@ service TravelService @(path:'/processor') {
     action createTravelByTemplate() returns Travel;
     action rejectTravel();
     action acceptTravel();
-    action pendTravel();
+    action pendTravel( reason : String );
     action deductDiscount( percent: Percentage not null ) returns Travel;
   };
 

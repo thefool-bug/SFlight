@@ -2,6 +2,8 @@ package com.sap.cap.sflight.processor;
 
 import static cds.gen.travelservice.TravelService_.TRAVEL;
 
+import java.util.HashMap;
+
 import org.springframework.stereotype.Component;
 
 import com.sap.cds.ql.Update;
@@ -72,10 +74,18 @@ public class AcceptRejectHandler implements EventHandler {
 	}
 	
 	@On(entity = Travel_.CDS_NAME)
-	public void onPendTravel(final TravelPendTravelContext context) {
+	public void onPendTravel(final TravelPendTravelContext context) throws Exception {
 		Travel travel = draftService.run(context.cqn()).single(Travel.class);
+		if (!travel.isActiveEntity()) {
+        	throw new Exception("Action 'Set Pending' is not allowed on draft versions.");
+		}
+
+		HashMap<String, Object> data = new HashMap<>();
+		data.put(Travel.TRAVEL_STATUS_CODE, TRAVEL_STATUS_PENDING);
+		data.put(Travel.REASON_TEXT, context.reason());
 		context.getCdsRuntime().requestContext().privilegedUser().run(ctx -> {
-			updateStatusForTravelId(travel.travelUUID(), TRAVEL_STATUS_PENDING, travel.isActiveEntity());
+			persistenceService.run(Update.entity(TRAVEL).where(t -> t.TravelUUID().eq(travel.travelUUID()))
+					.data(data));
 		});
 		context.setCompleted();
 	}

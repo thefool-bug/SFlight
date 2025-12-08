@@ -64,22 +64,22 @@ class TravelService extends cds.ApplicationService { init() {
 
   this.on ('acceptTravel', req => UPDATE (req.subject) .with ({ TravelStatus_code: 'A' }))
   this.on ('rejectTravel', req => UPDATE (req.subject) .with ({ TravelStatus_code: 'X' }))
-  // this.on ('pendTravel', req => UPDATE (req.subject) .with ({ TravelStatus_code: 'P' }))
-  this.on ('pendTravel', async req => {
-      let reason = req.data.reason
-      let travel = await SELECT.one `HasDraftEntity as draft, TravelStatus_code` .from(req.subject)
-      if (!travel) throw req.reject (404, `Travel "${travel.ID}" does not exist; may have been deleted meanwhile.`)
-      // not allowed on draft version
-      if (travel.draft !== true) {
-        throw req.reject(400, 'Action "Set Pending" is not allowed on draft versions.');
-      }
-      await UPDATE(req.subject)
-        .where `TravelStatus.code = 'O'`
-        .with({
-          TravelStatus_code: 'P',
-          ReasonText: reason
-        })
-    })
+  this.on(pendTravel, async req => {
+    let reason = req.data.reason
+    let travel = await SELECT.one `HasActiveEntity, TravelStatus_code` .from(req.subject)
+    if (!travel) throw req.reject (404, `Travel "${travel.ID}" does not exist; may have been deleted meanwhile.`)
+    // not allowed on draft version
+    console.log(travel.HasActiveEntity);
+    if (travel.HasActiveEntity == false) {
+      throw req.reject(400, 'Action "Set Pending" is not allowed on draft versions.');
+    }
+    await UPDATE(req.subject)
+      .where `TravelStatus.code = 'O'`
+      .with({
+        TravelStatus_code: 'P',
+        ReasonText: reason
+      })
+  })
   this.on ('deductDiscount', async req => {
     let discount = req.data.percent / 100
     let succeeded = await UPDATE (req.subject) .where `TravelStatus.code != 'A'` .and `BookingFee != null` .with (`

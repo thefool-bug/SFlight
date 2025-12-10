@@ -28,7 +28,7 @@ annotate schema.Travel {
     CollectionPath : 'Passenger',
     Label : 'Customer ID',
     Parameters : [
-      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Customer_CustomerID, ValueListProperty: 'CustomerID'},
+      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Customer, ValueListProperty: 'CustomerID'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'FirstName'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'LastName'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'Title'},
@@ -64,7 +64,7 @@ annotate schema.Booking {
     CollectionPath : 'Passenger',
     Label : '',
     Parameters : [
-      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Customer_CustomerID, ValueListProperty: 'CustomerID'},
+      {$Type: 'Common.ValueListParameterInOut', LocalDataProperty: to_Customer, ValueListProperty: 'CustomerID'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'FirstName'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'LastName'},
       {$Type: 'Common.ValueListParameterDisplayOnly', ValueListProperty: 'Title'},

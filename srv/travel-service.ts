@@ -121,7 +121,7 @@ init() {
    * Validate a Travel's edited data before save.
    */
   this.before ('SAVE', Travel, req => {
-    const { BeginDate, EndDate, BookingFee, to_Agency_AgencyID, to_Customer_CustomerID, to_Booking, TravelStatus_code } = req.data, today = (new Date).toISOString().slice(0,10)
+    const { BeginDate, EndDate, BookingFee, to_Agency_AgencyID, to_Customer, to_Booking, TravelStatus_code } = req.data, today = (new Date).toISOString().slice(0,10)
 
     // validate only not rejected travels
     if (TravelStatus_code !== TravelStatusCode.Canceled) {
@@ -129,16 +129,16 @@ init() {
       if (!BeginDate) req.error(400, "Enter a begin date", "in/BeginDate")
       if (!EndDate) req.error(400, "Enter an end date", "in/EndDate")
       if (!to_Agency_AgencyID) req.error(400, "Enter a travel agency", "in/to_Agency_AgencyID")
-      if (!to_Customer_CustomerID) req.error(400, "Enter a customer", "in/to_Customer_CustomerID")
+      if (!to_Customer) req.error(400, "Enter a customer", "in/to_Customer")
 
       for (const booking of to_Booking) {
-        const { BookingUUID, ConnectionID, FlightDate, FlightPrice, BookingStatus_code, to_Carrier_AirlineID, to_Customer_CustomerID } = booking
+        const { BookingUUID, ConnectionID, FlightDate, FlightPrice, BookingStatus_code, to_Carrier_AirlineID, to_Customer } = booking
         if (!ConnectionID) req.error(400, "Enter a flight", `in/to_Booking(BookingUUID='${BookingUUID}',IsActiveEntity=false)/ConnectionID`)
         if (!FlightDate) req.error(400, "Enter a flight date", `in/to_Booking(BookingUUID='${BookingUUID}',IsActiveEntity=false)/FlightDate`)
         if (!FlightPrice) req.error(400, "Enter a flight price", `in/to_Booking(BookingUUID='${BookingUUID}',IsActiveEntity=false)/FlightPrice`)
         if (!BookingStatus_code) req.error(400, "Enter a booking status", `in/to_Booking(BookingUUID='${BookingUUID}',IsActiveEntity=false)/BookingStatus_code`)
         if (!to_Carrier_AirlineID) req.error(400, "Enter an airline", `in/to_Booking(BookingUUID='${BookingUUID}',IsActiveEntity=false)/to_Carrier_AirlineID`)
-        if (!to_Customer_CustomerID) req.error(400, "Enter a customer", `in/to_Booking(BookingUUID='${BookingUUID}',IsActiveEntity=false)/to_Customer_CustomerID`)
+        if (!to_Customer) req.error(400, "Enter a customer", `in/to_Booking(BookingUUID='${BookingUUID}',IsActiveEntity=false)/to_Customer`)
 
         for (const suppl of booking.to_BookSupplement) {
           const { BookSupplUUID, Price, to_Supplement_SupplementID } = suppl

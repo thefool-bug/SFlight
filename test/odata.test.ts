@@ -64,7 +64,7 @@ describe('Basic OData', () => {
       LastChangedAt: expectedValue => /2023-07-27T03:18:18\.000(0000)?Z/.test(expectedValue), // timestamp precision increase with cds^7
       LastChangedBy: 'Deichgraeber',
       to_Agency_AgencyID: '070029',
-      to_Customer_CustomerID: '000318',
+      to_Customer: '000318',
       TotalPrice: 23439,
       TravelID: 175,
       TravelStatus_code: 'A',
@@ -122,7 +122,7 @@ describe('Basic OData', () => {
       BeginDate: '2028-04-01',
       EndDate: '2028-04-02',
       BookingFee: '11',
-      to_Customer_CustomerID: '000001',
+      to_Customer: '000001',
       to_Agency_AgencyID: '070001',
       CurrencyCode_code: 'USD'
     })

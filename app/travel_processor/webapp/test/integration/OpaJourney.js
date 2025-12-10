@@ -48,7 +48,7 @@ sap.ui.define(["sap/ui/test/opaQunit"], function (opaTest) {
         // Value help Customer ID
         When.onTheDetailPage
           .onForm({ section: "Travel", fieldGroup: "TravelData" })
-          .iOpenValueHelp({ property: "to_Customer_CustomerID" });
+          .iOpenValueHelp({ property: "to_Customer" });
         When.onTheDetailPage.onValueHelpDialog().iSelectRows({ 0: "000001" });
 
         // Starting date

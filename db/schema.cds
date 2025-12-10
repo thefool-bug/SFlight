@@ -1,11 +1,12 @@
 using { Currency, custom.managed, sap.common.CodeList } from './common';
 using {
   sap.fe.cap.travel.Airline,
-  sap.fe.cap.travel.Passenger,
+  // sap.fe.cap.travel.Passenger,
   sap.fe.cap.travel.TravelAgency,
   sap.fe.cap.travel.Supplement,
   sap.fe.cap.travel.Flight
  } from './master-data';
+// using { PassengerService.Passenger } from '../srv/external/PassengerService';
 
 namespace sap.fe.cap.travel;
 
@@ -20,7 +21,7 @@ entity Travel : managed {
   Description    : String(1024);
   TravelStatus   : Association to TravelStatus default 'O' @readonly;
   to_Agency      : Association to TravelAgency @mandatory;
-  to_Customer    : Association to Passenger @mandatory;
+  to_Customer    : String(6) not null;
   to_Booking     : Composition of many Booking on to_Booking.to_Travel = $self;
 };
 
@@ -45,7 +46,8 @@ entity Booking : managed {
   BookingStatus     : Association to BookingStatus default 'N' @mandatory;
   to_BookSupplement : Composition of many BookingSupplement on to_BookSupplement.to_Booking = $self;
   to_Carrier        : Association to Airline @mandatory;
-  to_Customer       : Association to Passenger @mandatory;
+  // to_Customer       : Association to Passenger @mandatory;
+  to_Customer       : String(6) not null;
   to_Travel         : Association to Travel;
   to_Flight         : Association to Flight on  to_Flight.AirlineID = to_Carrier.AirlineID
                                             and to_Flight.FlightDate = FlightDate

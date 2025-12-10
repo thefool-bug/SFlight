@@ -1,0 +1,32 @@
+cds:
+  remote:
+    services:
+      '[PassengerService]':
+        destination:
+          name: PassengerService
+          properties:
+            url: http://localhost:4005
+            # url: https://port4005-workspaces-ws-mh8hw.ap21.trial.applicationstudio.cloud.sap
+            username: internal
+            authentication: BasicAuthentication
+            password:
+        type: odata-v4
+        name: PassengerService
+        http:
+          suffix: odata/v4
+          service: 
+---
+spring:
+  config.activate.on-profile: default
+
+server:
+  port: 4004
+
+---
+spring:
+  config.activate.on-profile: cloud
+  sql.init.mode: never
+
+cds:
+  datasource:
+    csv.initialization-mode: never

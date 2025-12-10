@@ -68,7 +68,8 @@ service AnalyticsService @(path:'/analytics') {
   entity Travels as projection on my.Travel {
     *,
     @Common.Label: '{i18n>CustomerName}'
-    to_Customer.FirstName || ' ' || to_Customer.LastName as CustomerName : String,
+    to_Customer : String,
+    // to_Customer.FirstName || ' ' || to_Customer.LastName as CustomerName : String,
   };
 
   annotate Travels:TravelID with @Common.Text: null;

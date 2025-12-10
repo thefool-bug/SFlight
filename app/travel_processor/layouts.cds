@@ -35,7 +35,7 @@ annotate TravelService.Travel with @UI : {
   },
   SelectionFields : [
     to_Agency_AgencyID,
-    to_Customer_CustomerID,
+    to_Customer,
     TravelStatus_code
   ],
   LineItem : [
@@ -52,7 +52,7 @@ annotate TravelService.Travel with @UI : {
       @HTML5.CssDefaults: {width:'16em'}
     },
     {
-      Value : to_Customer_CustomerID,
+      Value : to_Customer,
       @UI.Importance : #High,
       @HTML5.CssDefaults: {width:'14em'}
     },
@@ -101,7 +101,7 @@ annotate TravelService.Travel with @UI : {
   FieldGroup#TravelData : { Data : [
     { Value : TravelID               },
     { Value : to_Agency_AgencyID     },
-    { Value : to_Customer_CustomerID },
+    { Value : to_Customer },
     { Value : Description            },
     {
       $Type       : 'UI.DataField',
@@ -149,7 +149,7 @@ annotate TravelService.Booking with @UI : {
     { Value : to_Carrier.AirlinePicURL,  Label : '  '},
     { Value : BookingID              },
     { Value : BookingDate            },
-    { Value : to_Customer_CustomerID },
+    { Value : to_Customer },
     { Value : to_Carrier_AirlineID   },
     { Value : ConnectionID,          Label : '{i18n>FlightNumber}' },
     { Value : FlightDate             },
@@ -183,7 +183,7 @@ annotate TravelService.Booking with @UI : {
   FieldGroup #GeneralInformation : { Data : [
     { Value : BookingID              },
     { Value : BookingDate,           },
-    { Value : to_Customer_CustomerID },
+    { Value : to_Customer },
     { Value : BookingDate,           },
     { Value : BookingStatus_code,
       Criticality : { $edmJson: { $If: [{$Eq: [{ $Path: 'BookingStatus_code'}, 'N']}, 2,

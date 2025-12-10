@@ -70,18 +70,18 @@ entity FlightConnection : MasterData {
 
 // showcasing unique constrains ??
 // @assert.unique.email: [EMailAddress]
-entity Passenger : managed, MasterData {
-  key CustomerID : String(6);
-  FirstName      : String(40);
-  LastName       : String(40);
-  Title          : String(10);
-  Street         : String(60);
-  PostalCode     : String(10);
-  City           : String(40);
-  CountryCode    : Country;
-  PhoneNumber    : String(30);
-  EMailAddress   : String(256);
-};
+// entity Passenger : managed, MasterData {
+//   key CustomerID : String(6);
+//   FirstName      : String(40);
+//   LastName       : String(40);
+//   Title          : String(10);
+//   Street         : String(60);
+//   PostalCode     : String(10);
+//   City           : String(40);
+//   CountryCode    : Country;
+//   PhoneNumber    : String(30);
+//   EMailAddress   : String(256);
+// };
 
 entity TravelAgency : MasterData {
   key AgencyID : String(6);

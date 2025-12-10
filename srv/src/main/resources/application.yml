@@ -24,8 +24,7 @@ cds:
         destination:
           name: PassengerService
           properties:
-            # url: http://localhost:4005
-            url: https://port4005-workspaces-ws-mh8hw.ap21.trial.applicationstudio.cloud.sap
+            url: http://localhost:4005
             username: internal
             authentication: BasicAuthentication
             password:

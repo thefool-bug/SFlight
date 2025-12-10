@@ -133,7 +133,7 @@ annotate TravelService.Booking with @UI : {
   HeaderInfo : {
     TypeName       : '{i18n>Bookings}',
     TypeNamePlural : '{i18n>Bookings}',
-    Title          : { Value : to_Customer.LastName },
+    Title          : { Value : to_Customer },
     Description    : { Value : BookingID }
   },
   PresentationVariant : {

@@ -5,25 +5,38 @@ management:
                 include: "*"
 
 cds:
-    sql.hana.search:
-        fuzzy: true
-        fuzzinessThreshold: 0.9
-    security.mock.users:
-    - name: rose
-    - name: martha
-      roles:
-        - reviewer
-    - name: amy
-      roles:
-        - processor
-    - name: admin
+  sql.hana.search:
+    fuzzy: true
+    fuzzinessThreshold: 0.9
+  security.mock.users:
+    martha:
+      roles: [ reviewer ]
+    bob:
+      roles: [ support ]
+    amy:
+      roles: [ processor ]
+    admin:
+      roles: [ admin ]
       password: admin
-      roles:
-      - admin
-
-    odata-v4:
-        endpoint:
-            path: "/"
+  remote:
+    services:
+      PassengerService:
+        destination:
+          name: PassengerService
+          properties:
+            # url: http://localhost:4005
+            url: https://port4005-workspaces-ws-mh8hw.ap21.trial.applicationstudio.cloud.sap
+            username: internal
+            authentication: BasicAuthentication
+            password:
+        name: PassengerService
+        type: odata-v4
+        http:
+          suffix: odata/v4
+          service: 
+  odata-v4:
+    endpoint:
+      path: "/"
 
 ---
 spring:

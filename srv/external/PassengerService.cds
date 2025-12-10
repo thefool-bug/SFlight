@@ -3,8 +3,6 @@
 @cds.persistence.skip : true
 @Common.SideEffects#alwaysFetchMessages.$Type : 'Common.SideEffectsType'
 @Common.SideEffects#alwaysFetchMessages.SourceEntities : [ ![($self)] ]
-@Common.SideEffects#alwaysFetchMessages.TargetProperties : [ 'DraftMessages' ]
-@Common.Messages : DraftMessages
 @Common.DraftRoot.$Type : 'Common.DraftRootType'
 @Common.DraftRoot.ActivationAction : 'PassengerService.draftActivate'
 @Common.DraftRoot.EditAction : 'PassengerService.draftEdit'
@@ -76,8 +74,6 @@ entity PassengerService.Passenger {
   @UI.Hidden : true
   DraftAdministrativeData : Association to one PassengerService.DraftAdministrativeData {  };
   SiblingEntity : Association to one PassengerService.Passenger {  };
-  @Core.Computed : true
-  DraftMessages : many PassengerService.DRAFT_DraftAdministrativeData_DraftMessage;
 } actions {
   action draftPrepare(
     ![in] : $self,

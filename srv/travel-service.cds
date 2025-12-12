@@ -20,6 +20,10 @@ service TravelService @(path:'/processor') {
     action deductDiscount( percent: Percentage not null ) returns Travel;
   };
   entity Passenger as projection on external.Passenger;
+  action PendingInBatch(
+    travelIDs: array of String,
+    reason: String
+  );
 
 }
 

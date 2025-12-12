@@ -1,4 +1,6 @@
 using { sap.fe.cap.travel as schema } from '../db/schema';
+using { TravelService } from '../srv/travel-service';
+
 
 //
 // annotations for value helps

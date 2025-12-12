@@ -35,7 +35,7 @@ public class ExternalHandler implements EventHandler {
         return ps.run(context.getCqn());
     }
 
-    @On(service = "PassengerMessage",event = "sap.cap.passenger.v1.PassengerService.changed.v1")
+    @On(service = "PassengerMessage",event = "sfp.event.write.passengerEntry")
     private void afterPassengerChanged(TopicMessageEventContext context) {
         Map<String,Object> event = context.getDataMap();
         logger.info("Receiving: '" + event.toString() + "'");

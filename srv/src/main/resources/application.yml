@@ -33,6 +33,12 @@ cds:
         http:
           suffix: odata/v4
           service: 
+  messaging:
+    services:
+      - name: "PassengerMessage"
+        kind: "file-based-messaging"
+        binding: "/home/user/projects/data-sync.txt"
+        topic: "sfp.event.write.passengerEntry"
   odata-v4:
     endpoint:
       path: "/"

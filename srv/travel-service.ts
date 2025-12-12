@@ -193,6 +193,33 @@ init() {
       return SELECT(req.subject)
     }
   })
+  this.on("PendingInBatch", async req => {
+  const { travelIDs, reason } = req.data;
+
+  if (!Array.isArray(travelIDs) || travelIDs.length === 0) {
+    throw req.reject(400, 'No travels selected.');
+  }
+
+  // 验证：只允许对 Active Entity（非草稿）且状态为 'O' 的记录操作
+  const validTravels = await SELECT.from('Travel')
+    .where({ 
+      ID: { in: travelIDs },
+      HasActiveEntity: true,
+      TravelStatus_code: 'O'
+    })
+    .columns('ID');
+
+  const validIDs = validTravels.map(t => t.ID);
+  const invalidIDs = travelIDs.filter(id => !validIDs.includes(id));
+  if (invalidIDs.length > 0) {
+    throw req.reject(400, 'Some selected travels are drafts, not open, or do not exist.');
+  }
+
+  // 批量更新
+  await UPDATE('Travel')
+    .set({ TravelStatus_code: 'P', ReasonText: reason })
+    .where({ ID: { in: validIDs } });
+  })
 
 
   // Add base class's handlers. Handlers registered above go first.

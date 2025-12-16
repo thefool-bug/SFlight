@@ -67,11 +67,11 @@ annotate TravelService.Travel with @UI : {
       @UI.Importance : #High,
       @HTML5.CssDefaults: {width:'10em'}
     },
-    {
-        $Type : 'UI.DataFieldForAction',
-        Action : 'TravelService.EntityContainer/PendingInBatch',
-        Label : '{i18n>PendingInBatch}',
-    },
+    // {
+    //     $Type : 'UI.DataFieldForAction',
+    //     Action : 'TravelService.EntityContainer/PendingInBatch',
+    //     Label : '{i18n>PendingInBatch}',
+    // },
   ],
   Facets : [{
     $Type  : 'UI.CollectionFacet',

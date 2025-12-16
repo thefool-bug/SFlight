@@ -165,7 +165,6 @@ init() {
     let travel = await SELECT.one `HasActiveEntity, TravelStatus_code` .from(req.subject)
     if (!travel) throw req.reject (404, `Travel "${travel.ID}" does not exist; may have been deleted meanwhile.`)
     // not allowed on draft version
-    console.log(travel.HasActiveEntity);
     if (travel.HasActiveEntity == false) {
       throw req.reject(400, 'Action "Set Pending" is not allowed on draft versions.');
     }
@@ -194,31 +193,25 @@ init() {
     }
   })
   this.on("PendingInBatch", async req => {
-  const { travelIDs, reason } = req.data;
+    const { travelIDs, reason } = req.data;
 
-  if (!Array.isArray(travelIDs) || travelIDs.length === 0) {
-    throw req.reject(400, 'No travels selected.');
-  }
+    if (!Array.isArray(travelIDs) || travelIDs.length === 0) {
+      throw req.reject(400, 'No travels selected.');
+    }
 
-  // 验证：只允许对 Active Entity（非草稿）且状态为 'O' 的记录操作
-  const validTravels = await SELECT.from('Travel')
-    .where({ 
-      ID: { in: travelIDs },
-      HasActiveEntity: true,
-      TravelStatus_code: 'O'
-    })
-    .columns('ID');
+    // 验证：只允许对非草稿且状态为'O'的记录操作
+    const validTravels = await SELECT.from('sap_fe_cap_travel_Travel')
+      .where({ 
+        TravelID: { in: travelIDs },
+        TravelStatus_code: 'O'
+      })
+      .columns('TravelID');
+    const validIDs = validTravels.map(t => t.TravelID);
 
-  const validIDs = validTravels.map(t => t.ID);
-  const invalidIDs = travelIDs.filter(id => !validIDs.includes(id));
-  if (invalidIDs.length > 0) {
-    throw req.reject(400, 'Some selected travels are drafts, not open, or do not exist.');
-  }
-
-  // 批量更新
-  await UPDATE('Travel')
-    .set({ TravelStatus_code: 'P', ReasonText: reason })
-    .where({ ID: { in: validIDs } });
+    // 批量更新
+    await UPDATE('sap_fe_cap_travel_Travel')
+      .set({ TravelStatus_code: 'P', ReasonText: reason })
+      .where({ TravelID: { in: validIDs } });
   })
 
 

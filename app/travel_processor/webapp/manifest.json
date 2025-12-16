@@ -67,12 +67,12 @@
     "sap.ui5": {
         "flexEnabled": true,
         "resources": {
-            "js": [],
             "css": []
         },
         "dependencies": {
             "minUI5Version": "1.128.0",
             "libs": {
+                "sap.m": {},
                 "sap.ui.core": {},
                 "sap.fe.templates": {}
             }
@@ -134,6 +134,20 @@
                             "controlConfiguration": {
                                 "@com.sap.vocabularies.UI.v1.SelectionFields": {
                                     "useSemanticDateRange": true
+                                },
+                                "@com.sap.vocabularies.UI.v1.LineItem": {
+                                    "tableSettings": {
+                                        "type": "ResponsiveTable"
+                                    },
+                                    "actions": {
+                                        "PendingInBatch": {
+                                            "press": "sap.fe.cap.travel.ext.controller.ListReportExt.PendingInBatch",
+                                            "visible": true,
+                                            "enabled": true,
+                                            "requiresSelection": false,
+                                            "text": "{i18n>PendingInBatch}"
+                                        }
+                                    }
                                 }
                             },
                             "variantManagement": "Page",
